@@ -107,7 +107,7 @@ public interface BackendAPI extends BackendAPIReadOnly {
      * @param f location to export processed gcode
      */
     void preprocessAndExportToFile(File f) throws Exception;
-    
+
     // Control options
     void connect(String firmware, String port, int baudRate) throws Exception;
     void disconnect() throws Exception;
