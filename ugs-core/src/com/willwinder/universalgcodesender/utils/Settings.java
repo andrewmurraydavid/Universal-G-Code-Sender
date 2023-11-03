@@ -107,6 +107,8 @@ public class Settings {
 
     private Map<Integer, Macro> macros = new HashMap<>();
 
+    private Map<String, Object> savedVariables = new HashMap<>();
+
     private String language = "en_US";
 
     private String connectionDriver;
@@ -536,6 +538,20 @@ public class Settings {
     public void setMacros(List<Macro> macros) {
         this.macros.clear();
         macros.forEach(this::addMacro);
+        changed();
+    }
+
+    public Map<String, Object> getSavedVariables() {
+        return savedVariables;
+    }
+
+    public void addSavedVariable(String key, Object val) {
+        savedVariables.put(key, val);
+        changed();
+    }
+
+    public void removeSavedVariable(String key) {
+        savedVariables.remove(key);
         changed();
     }
 
