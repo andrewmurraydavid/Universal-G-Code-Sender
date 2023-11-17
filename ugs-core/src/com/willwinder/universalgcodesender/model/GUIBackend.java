@@ -200,6 +200,8 @@ public class GUIBackend implements BackendAPI {
         controller.addListener(eventDispatcher);
         controller.getFirmwareSettings().addListener(eventDispatcher);
 
+        controller.getCommunicator().addPreFlightProcessor(expressionEngine::process);
+
         openCommConnection(port, baudRate);
     }
 
@@ -253,9 +255,6 @@ public class GUIBackend implements BackendAPI {
     @Override
     public void sendGcodeCommand(boolean restoreParserState, String commandText) throws Exception {
         if (this.isConnected()) {
-            // perform in-flight processing for evaluating expressions, resolving all variables
-            commandText = expressionEngine.process(commandText);
-
             GcodeCommand command = controller.createCommand(commandText);
             command.setTemporaryParserModalChange(restoreParserState);
             sendGcodeCommand(command);
@@ -728,11 +727,6 @@ public class GUIBackend implements BackendAPI {
         }
 
         return controller.getCommandCreator();
-    }
-
-    @Override
-    public void setWorkPosition(PartialPosition position) throws Exception {
-        controller.setWorkPosition(position);
     }
 
     // TODO (coco|2023.10.28) refactor this. extract Javascript engine into its own
