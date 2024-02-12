@@ -697,7 +697,7 @@ public class GUIBackend implements BackendAPI {
                     .append(Localization.getString("firmware.feature.linesToArc")).append(NEW_LINE)
                     .append(Localization.getString("firmware.feature.statusUpdates")).append(NEW_LINE)
                     .append(Localization.getString("firmware.feature.statusUpdateRate"));
-
+            logger.log(Level.SEVERE, "Could not load firmware settings", ex);
             throw new Exception(message.toString(), ex);
         }
     }
@@ -793,10 +793,5 @@ public class GUIBackend implements BackendAPI {
             long end = System.currentTimeMillis();
             logger.info("Took " + (end - start) + "ms to preprocess");
         }
-    }
-
-    @Override
-    public void sendOverrideCommand(Overrides override) throws Exception {
-        this.controller.sendOverrideCommand(override);
     }
 }
